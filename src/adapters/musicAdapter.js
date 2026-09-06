@@ -24,6 +24,22 @@ export class MockMusicAdapter extends MusicAdapter {
   }
 }
 
+export const licensedTracks = [
+  { id: 'commons-fur-elise', title: '致爱丽丝', artist: 'L. v. Beethoven · CC0 录音', previewUrl: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/FurElise.ogg', sourceName: 'Wikimedia Commons', license: 'CC0 1.0', sourceUrl: 'https://commons.wikimedia.org/wiki/File:FurElise.ogg' },
+  { id: 'commons-ode-to-joy', title: '欢乐颂', artist: 'L. v. Beethoven · 公版录音', previewUrl: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Ode_to_Joy.ogg', sourceName: 'Wikimedia Commons', license: 'Public Domain Mark 1.0', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Ode_to_Joy.ogg' },
+  { id: 'commons-game-bgm', title: 'Game BGM', artist: 'Yuyuyunoyuusuke1', previewUrl: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/GameBGM.ogg', sourceName: 'Wikimedia Commons', license: 'CC0 1.0', sourceUrl: 'https://commons.wikimedia.org/wiki/File:GameBGM.ogg' }
+]
+
+export class LicensedMusicAdapter extends MusicAdapter {
+  async search(keyword) {
+    const clean = String(keyword || '').trim().toLowerCase()
+    if (!clean) return []
+    if (clean === '断网') throw new Error('simulated_network_error')
+    return licensedTracks.filter((item) => `${item.title}${item.artist}`.toLowerCase().includes(clean) || ['音乐', '公版', 'commons'].includes(clean))
+  }
+  toQueueItem(raw, requester = '匿名同学') { return { ...raw, requester: requester.slice(0, 12), status: 'waiting' } }
+}
+
 export async function safeSearch(adapter, keyword) {
   try { return { items: await adapter.search(keyword), error: null } } catch { return { items: [], error: '音乐来源暂不可用，请稍后重试', retryable: true } }
 }

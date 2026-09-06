@@ -1,6 +1,6 @@
 {
   "name": "ffd-p5-music-station",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "engines": { "node": ">=24" },
@@ -8,7 +8,7 @@
     "dev": "vite",
     "check": "node scripts/check-project.mjs",
     "test:unit": "node --test tests/*.test.mjs",
-    "test:component": "vitest run tests/smoke.component.spec.js",
+    "test:component": "vitest run tests/smoke.component.spec.js tests/license.component.spec.js",
     "test": "npm run test:unit && npm run test:component",
     "build": "vite build"
   },
