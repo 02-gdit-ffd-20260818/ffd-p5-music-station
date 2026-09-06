@@ -16,3 +16,11 @@ export function nextIndex(length, currentIndex) {
   if (!length) return -1
   return (currentIndex + 1) % length
 }
+
+export function moveItem(queue, from, to) {
+  if (from < 0 || to < 0 || from >= queue.length || to >= queue.length || from === to) return queue
+  const copy = [...queue]
+  const [item] = copy.splice(from, 1)
+  copy.splice(to, 0, item)
+  return copy
+}

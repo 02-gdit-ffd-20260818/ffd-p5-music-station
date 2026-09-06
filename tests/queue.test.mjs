@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { addUnique, nextIndex, removeAt } from '../src/stores/queueCore.js'
+import { addUnique, moveItem, nextIndex, removeAt } from '../src/stores/queueCore.js'
 
 test('adds unique tracks and rejects duplicate ids', () => {
   const first = addUnique([], { id: 'a' })
@@ -14,3 +14,4 @@ test('remove keeps current index valid', () => {
   assert.deepEqual(removeAt([{ id: 'a' }, { id: 'b' }], 0, 1), { queue: [{ id: 'b' }], currentIndex: 0 })
   assert.deepEqual(removeAt([{ id: 'a' }], 0, 0), { queue: [], currentIndex: -1 })
 })
+test('host can reorder without mutating the original queue', () => { const queue = [{id:'a'},{id:'b'}]; const moved = moveItem(queue,1,0); assert.deepEqual(moved,[{id:'b'},{id:'a'}]); assert.equal(queue[0].id,'a') })
